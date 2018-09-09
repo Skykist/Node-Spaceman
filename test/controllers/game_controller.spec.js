@@ -59,9 +59,10 @@ describe('Spaceman Game Controller', () => {
 
         it('should send the word to guess from the request to the SpacemanGame constructor', () => {
             mockRequest.body = { word: "bolero" }
+            SpacemanGame.create.yields( null, mockRequest.body )
             controller.create_game( mockRequest, mockResponse )
 
-            SpacemanGame.create.calledWith( mockRequest.body ).should.be.true
+            mockResponse.send.calledWith( mockRequest.body ).should.be.true
         });
     });
 
