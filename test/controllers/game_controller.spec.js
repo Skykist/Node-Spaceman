@@ -59,10 +59,9 @@ describe('Spaceman Game Controller', () => {
 
         it('should send the word to guess from the request to the SpacemanGame constructor', () => {
             mockRequest.body = { word: "bolero" }
-            SpacemanGame.create.yields( null, mockRequest.body )
             controller.create_game( mockRequest, mockResponse )
 
-            mockResponse.send.calledWith( mockRequest.body ).should.be.true
+            SpacemanGame.create.calledWith( mockRequest.body ).should.be.true
         });
     });
 
@@ -150,4 +149,7 @@ describe('Spaceman Game Controller', () => {
     // TODO: Add tests for Getting a game's solution
     // HINT: remember the `beforeEach` fixture that is in this describe block, 
     //   it constructs things that might be useful
+
+
+
 });

@@ -3,15 +3,28 @@ const getRandomWord = require('random-words')
 
 exports.create_game = (req, res) => {
     wordToGuess = req.body.word
-    SpacemanGame.create({ 
-        word: getRandomWord()
-    }, function( err, gameInstance ) {
-        if( err ) {
-            res.status(400).send(err)
-        } else {
-            res.send( gameInstance )
-        }
-    });
+    if(req.body.word == null){
+        SpacemanGame.create({ 
+            word: getRandomWord()
+        }, function( err, gameInstance ) {
+            if( err ) {
+                res.status(400).send(err)
+            } else {
+                res.send( gameInstance )
+            }
+        });
+    } else {
+        SpacemanGame.create({ 
+            word: wordToGuess
+        }, function( err, gameInstance ) {
+            if( err ) {
+                res.status(400).send(err)
+            } else {
+                res.send( gameInstance )
+            }
+        });
+    }
+    
 };
 
 exports.get_game = ( req, res ) => {
