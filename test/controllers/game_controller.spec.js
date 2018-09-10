@@ -150,6 +150,62 @@ describe('Spaceman Game Controller', () => {
     // HINT: remember the `beforeEach` fixture that is in this describe block, 
     //   it constructs things that might be useful
 
+    describe('Having the game over ', () => {
+        var testword = 'TESTWORD'
+        var game;
 
+        beforeEach( () => {
+            game = SpacemanGame({word:testword,
+                guessed_word_state:['T','E','','T','W','O','R','D'],
+                //guesses_taken: 9,
+                guesses_allowed: 10,
+                letters_available: ['A', 'B', 'M', 'O', 'P','S'],
+                letters_guessed: ['T','E','','T','W','O','R','D'],
+                is_game_over: false
+            })
+        });
+
+        it('true when the last allowed guess is made ', () => {
+            game.guesses_taken = 9;
+            game.handleGuess("S");
+            game.is_game_over.should.be.true;
+        });
+
+        it('true when the last correct guess is made with guesses still available', () => {
+            game.guesses_taken = 7;
+            game.handleGuess("S");
+            game.is_game_over.should.be.true;
+        });
+        
+    });
+
+    describe('Having the game not over ', () => {
+        var testword = 'TESTWORD'
+        var game;
+
+        beforeEach( () => {
+            game = SpacemanGame({word:testword,
+                guessed_word_state:['T','','','T','W','O','R','D'],
+                //missing 'E' and 'S'
+                guesses_allowed: 10,
+                letters_available: ['A', 'B', 'M', 'O', 'P','S','E'],
+                letters_guessed: ['T','','','T','W','O','R','D'],
+                is_game_over: false
+            })
+        });
+
+        it('when a correct guess is made and there are still letters available', () => {
+            game.guesses_taken = 8;
+            game.handleGuess("S");
+            game.is_game_over.should.be.false;
+        });
+
+        it('when a wrong letter is given, but allowed guesses are still available', () => {
+            game.guesses_taken = 7;
+            game.handleGuess("A");
+            game.is_game_over.should.be.false;
+        });
+        
+    });
 
 });
